@@ -23,11 +23,11 @@ App = React.createClass({
         },
     getGif: function(searchingText) { 
         return new Promise (
-          function (resolve, reject) {
+          (resolve, reject) => {
             let url = GIPHY_API_URL + '/v1/gifs/random?api_key=' + GIPHY_PUB_KEY + '&tag=' + searchingText; 
             let xhr = new XMLHttpRequest(); 
             xhr.onload = () => {
-              if (this.status === 200) {
+              if (xhr.status === 200) {
                 let data = JSON.parse(xhr.responseText).data; 
                 let gif = {
                   url: data.fixed_width_downsampled_url,
@@ -35,9 +35,9 @@ App = React.createClass({
                 };
                 resolve(gif); 
               }
-              reject(new Error(this.statusText));
+              reject(new Error(xhr.statusText));
             };
-            xhr.onerror = function () {
+            xhr.onerror = () => {
               reject(new Error(`XMLHttpRequest Error: ${this.statusText}`));
             };
             xhr.open('GET', url);
